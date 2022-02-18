@@ -69,7 +69,9 @@ function render(frame_elem, download_elem, {frame_width_mm, frame_height_mm, nai
     let download_a = document.querySelector('#download');
     let svg_txt = frame_elem.innerHTML;
     download_elem.setAttribute('href', 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg_txt));
-    download_elem.setAttribute('download', 'frame.svg');
+    let fname = 'frame_' + frame_width_mm + 'mm_x_' + frame_height_mm
+        + 'mm_nail_' + nail_head_diameter_mm + 'mm_x_' + nail_shank_diameter_mm + 'mm.svg';
+    download_elem.setAttribute('download', fname);
 }
 
 function removeChildren(elem) {
