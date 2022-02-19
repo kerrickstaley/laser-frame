@@ -10,9 +10,9 @@ const nail_shank_clearance_mm = 0.1;
 const nail_to_top_dist_mm = 20.0;
 const doc_margin_mm = 10.0;
 // We add extra_frame_size_mm to the width and height of the frame. One thing this accounts for is laser kerf. But kerf
-// should only be 0.2 mm, not 0.8 mm. So what is the extra 0.6 mm? I don't know. The picture just always seems to hang
+// should only be 0.2 mm, not 1.0 mm. So what is the extra 0.8 mm? I don't know. The picture just always seems to hang
 // off the frame if we don't add this.
-const extra_frame_size_mm = 0.8;
+const extra_frame_size_mm = 1.0;
 
 function render(frame_elem, download_elem, {frame_width_mm, frame_height_mm, nail_head_diameter_mm, nail_shank_diameter_mm}={}) {
     removeChildren(frame_elem);
