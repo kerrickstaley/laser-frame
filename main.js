@@ -10,7 +10,7 @@ const nail_shank_clearance_mm = 0.1;
 const nail_to_top_dist_mm = 20.0;
 const doc_margin_mm = 10.0;
 // The engraving will "bleed" into the cut-away area by engrave_bleed_mm. This prevents weird artifacts at the boundary.
-const engrave_bleed_mm = 0.5;
+const engrave_bleed_mm = 0.8;
 // We add extra_frame_size_mm to the width and height of the frame. One thing this accounts for is laser kerf. But kerf
 // should only be 0.2 mm, not 1.0 mm. So what is the extra 0.8 mm? I don't know. The picture just always seems to hang
 // off the frame if we don't add this.
@@ -48,13 +48,20 @@ function render(frame_elem, download_elem, {frame_width_mm, frame_height_mm, nai
         ['a', hole_width / 2, hole_width / 2, 0, 0, 0, -(hole_width / 2 - slot_width / 2), cusp_height_cut],
     ];
 
-    let shelf_interior_curve_engrave = [
-        ['a', hole_width / 2 - engrave_bleed_mm, hole_width / 2 - engrave_bleed_mm, 0, 0, 0, -(hole_width / 2 - slot_width / 2), -cusp_height_engrave],
-        ['l', 0, cusp_height_engrave - (hole_height - hole_width)],
-        ['a', slot_width / 2 - engrave_bleed_mm, slot_width / 2 - engrave_bleed_mm, 0, 0, 0, -slot_width + 2 * engrave_bleed_mm, 0],
-        ['l', 0, hole_height - hole_width - cusp_height_engrave],
-        ['a', hole_width / 2 - engrave_bleed_mm, hole_width / 2 - engrave_bleed_mm, 0, 0, 0, -(hole_width / 2 - slot_width / 2), cusp_height_engrave],
-    ];
+    let shelf_interior_curve_engrave = [];
+    if (slot_width - 2 * engrave_bleed_mm > 0.1) {
+        shelf_interior_curve_engrave = [
+            ['a', hole_width / 2 - engrave_bleed_mm, hole_width / 2 - engrave_bleed_mm, 0, 0, 0, -(hole_width / 2 - slot_width / 2), -cusp_height_engrave],
+            ['l', 0, cusp_height_engrave - (hole_height - hole_width)],
+            ['a', slot_width / 2 - engrave_bleed_mm, slot_width / 2 - engrave_bleed_mm, 0, 0, 0, -slot_width + 2 * engrave_bleed_mm, 0],
+            ['l', 0, hole_height - hole_width - cusp_height_engrave],
+            ['a', hole_width / 2 - engrave_bleed_mm, hole_width / 2 - engrave_bleed_mm, 0, 0, 0, -(hole_width / 2 - slot_width / 2), cusp_height_engrave],
+        ];
+    } else {
+        shelf_interior_curve_engrave = [
+            ['a', hole_width / 2 - engrave_bleed_mm, hole_width / 2 - engrave_bleed_mm, 0, 0, 0, -hole_width + 2 * engrave_bleed_mm, 0],
+        ];
+    }
 
     let shelf_path_array = new SVG.PathArray(
         [
