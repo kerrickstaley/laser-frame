@@ -2,6 +2,7 @@
 // I found that 1.5 mm gives better results than smaller clearances. The hole formed with engraving
 // is slightly conical and with less clearance the head gets wedged in rather than resting on the
 // tabs.
+// Acrylic has more "coning" than plywood and needs this to be larger.
 // This also helps account for variance in nail head size (even when the nails are intended to be the
 // same size).
 const nail_head_clearance_mm = 1.5;
@@ -11,8 +12,8 @@ const nail_shank_clearance_mm = 0.1;
 const nail_to_top_dist_mm = 20.0;
 const doc_margin_mm = 10.0;
 // The engraving will "bleed" into the cut-away area by engrave_bleed_mm. This prevents weird artifacts at the boundary.
-// Acrylic needs this more than plywood does.
-const engrave_bleed_mm = 1.2;
+// Acrylic needs this to be larger than plywood does, again due to the "coning".
+const engrave_bleed_mm = 1.5;
 // We add extra_frame_size_mm to the width and height of the frame. One thing this accounts for is laser kerf. But kerf
 // should only be 0.2 mm, not 1.0 mm. So what is the extra 0.8 mm? I don't know. The picture just always seems to hang
 // off the frame if we don't add this.
