@@ -16,6 +16,7 @@ const engrave_bleed_mm = 0.8;
 // should only be 0.2 mm, not 1.0 mm. So what is the extra 0.8 mm? I don't know. The picture just always seems to hang
 // off the frame if we don't add this.
 const extra_frame_size_mm = 1.0;
+const etch_test = false;
 
 function render(frame_elem, download_elem, {frame_width_mm, frame_height_mm, nail_head_diameter_mm, nail_shank_diameter_mm}={}) {
     removeChildren(frame_elem);
@@ -89,11 +90,35 @@ function render(frame_elem, download_elem, {frame_width_mm, frame_height_mm, nai
     );
     svg.path(cut_path_array).stroke({color: '#f00', width: 0.1}).fill({opacity: 0, color: '#000'});
 
-    let download_a = document.querySelector('#download');
     let svg_txt = frame_elem.innerHTML;
     download_elem.setAttribute('href', 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg_txt));
     let fname = 'frame_' + frame_width_mm + 'mm_x_' + frame_height_mm
         + 'mm_nail_' + nail_head_diameter_mm + 'mm_x_' + nail_shank_diameter_mm + 'mm.svg';
+    download_elem.setAttribute('download', fname);
+}
+
+function renderEtchTest(elem) {
+    removeChildren(frame_elem);
+
+    const etch_mm = 6;
+    // The purpose of making cut_mm so big is to prevent the piece from falling into the honeycomb.
+    const cut_mm = 20;
+
+    let svg = SVG().addTo(frame_elem);
+    svg.width((cut_mm + 2 * doc_margin_mm) + 'mm');
+    svg.height((cut_mm + 2 * doc_margin_mm) + 'mm');
+
+    svg.viewbox(0, 0, cut_mm + 2 * doc_margin_mm, cut_mm + 2 * doc_margin_mm);
+
+    svg.rect(etch_mm + 2 * engrave_bleed_mm, etch_mm + 2 * engrave_bleed_mm)
+        .move(doc_margin_mm - engrave_bleed_mm, doc_margin_mm - engrave_bleed_mm)
+        .stroke({opacity: 0})
+        .fill({color: '#000'});
+    svg.rect(cut_mm, cut_mm).move(doc_margin_mm, doc_margin_mm).stroke({color: '#f00', width: 0.1}).fill({opacity: 0, color: '#000'});
+
+    let svg_txt = frame_elem.innerHTML;
+    download_elem.setAttribute('href', 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg_txt));
+    let fname = 'etch_test_' + cut_mm + 'mm_x_' + cut_mm + '.svg';
     download_elem.setAttribute('download', fname);
 }
 
@@ -117,7 +142,11 @@ function makeUpdate({frame_width_elem, frame_height_elem, nail_head_diameter_ele
                 return;
             }
         }
-        render(frame_elem, download_elem, values);
+        if (etch_test) {
+            renderEtchTest(frame_elem, download_elem);
+        } else {
+            render(frame_elem, download_elem, values);
+        }
     }
     return update;
 }
