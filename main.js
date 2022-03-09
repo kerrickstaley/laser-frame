@@ -5,7 +5,9 @@
 // Acrylic has more "coning" than plywood and needs this to be larger.
 // This also helps account for variance in nail head size (even when the nails are intended to be the
 // same size).
-const nail_head_clearance_mm = 1.5;
+// TODO We should make this different for acrylic vs plywood, plywood is fine with like 0.5mm for this.
+//      Maybe also experiment with changing etching shape for acrylic to reduce coning.
+const nail_head_clearance_mm = 3.0;
 const nail_shank_clearance_mm = 0.1;
 // nail_to_top_dist_mm is the distance from the center of the nail to the top of the frame when the piece is hanging.
 // If you print a small test piece (e.g. 2x2 cm), this will be overridden so that the hole is centered.
