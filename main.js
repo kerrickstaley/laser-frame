@@ -1,9 +1,10 @@
 // These clearance values are on each side, so you need to double them to get a diameter.
-// I found that 0.5 mm gives better results than 0.1-0.4 mm. The hole formed with engraving is slightly
-// conical and with 0.1-0.3 mm the head gets wedged in rather than resting on the tabs.
+// I found that 1.5 mm gives better results than smaller clearances. The hole formed with engraving
+// is slightly conical and with less clearance the head gets wedged in rather than resting on the
+// tabs.
 // This also helps account for variance in nail head size (even when the nails are intended to be the
 // same size).
-const nail_head_clearance_mm = 0.5;
+const nail_head_clearance_mm = 1.5;
 const nail_shank_clearance_mm = 0.1;
 // nail_to_top_dist_mm is the distance from the center of the nail to the top of the frame when the piece is hanging.
 // If you print a small test piece (e.g. 2x2 cm), this will be overridden so that the hole is centered.
